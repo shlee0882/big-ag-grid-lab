@@ -2,11 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const { db } = require("./db");
 const { z } = require("zod");
+const { seed } = require("./seed");
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
-
 // --- COUNT cache (in-memory)
 const COUNT_CACHE_TTL_MS = 30_000;
 const countCache = new Map();
@@ -226,8 +226,14 @@ app.get("/api/users-cursor", (req, res) => {
   });
 });
 
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true });
+});
 
-app.listen(4000, () => {
-  console.log("✅ API running on http://localhost:4000");
-  console.log("👉 run: node src/seed.js  (first time)");
+// Render 같은 환경에서 재시작 시 DB가 없어질 수 있으니, 없으면 seed
+seed(Number(process.env.SEED_ROWS || 500000));
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`✅ API running on http://localhost:${PORT}`);
 });

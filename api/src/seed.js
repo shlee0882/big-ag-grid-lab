@@ -1,7 +1,6 @@
 const { db } = require("./db");
-const target = Number(process.argv[2] || 10000);
 
-function init() {
+function seed(target = 500000) {
   db.exec(`
     PRAGMA journal_mode = WAL;
 
@@ -16,12 +15,13 @@ function init() {
     CREATE INDEX IF NOT EXISTS idx_users_status ON users(status);
     CREATE INDEX IF NOT EXISTS idx_users_createdAt ON users(createdAt);
     CREATE INDEX IF NOT EXISTS idx_users_name ON users(name);
+    CREATE INDEX IF NOT EXISTS idx_users_createdAt_id ON users(createdAt, id);
   `);
 
   const row = db.prepare("SELECT COUNT(*) as cnt FROM users").get();
   if (row.cnt > 0) {
     console.log(`✅ users already seeded: ${row.cnt}`);
-    return;
+    return row.cnt;
   }
 
   const insert = db.prepare(
@@ -42,8 +42,14 @@ function init() {
   });
 
   tx();
-  db.exec(`CREATE INDEX IF NOT EXISTS idx_users_createdAt_id ON users(createdAt, id);`);
-  console.log(`✅ Seeded ${target} users`);
+  console.log(`✅ Seeded ${target.toLocaleString()} users`);
+  return target;
 }
 
-init();
+module.exports = { seed };
+
+// (로컬에서 직접 실행도 가능하게)
+if (require.main === module) {
+  const target = Number(process.argv[2] || 500000);
+  seed(target);
+}

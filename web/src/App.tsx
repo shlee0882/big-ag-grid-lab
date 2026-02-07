@@ -103,7 +103,8 @@ async function fetchData(q: QueryState) {
   const t0 = performance.now();
 
   try {
-    const res = await fetch(`http://localhost:4000/api/users?${params.toString()}`, {
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4000";
+    const res = await fetch(`${API_BASE_URL}/api/users?${params.toString()}`, {
       signal: controller.signal,
     });
     const json: ApiRes = await res.json();
