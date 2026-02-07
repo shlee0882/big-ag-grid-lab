@@ -1,0 +1,8 @@
+# 빌드 결과물
+dist/* linguist-generated
+build/* linguist-generated
+
+# 설정 파일만 제외
+*.config.js linguist-generated
+vite.config.js linguist-generated
+webpack.config.js linguist-generated
