@@ -7,7 +7,8 @@
 **어디서 느려지는지 → 왜 그런지 → 어떤 선택을 했는지**를  
 수치와 실험 결과를 테스트하는 것을 목표로 했습니다.
 
-실무에서 자주 마주치는 그리드 기반 관리 화면을 실제 서비스 환경과 유사하게 구성하는 것을 목표로 했습니다.
+실무에서 자주 마주치는 그리드 기반 관리 화면을 
+실제 서비스 환경과 유사하게 구성했습니다.
 
 ---
 
@@ -102,8 +103,8 @@ pageSize=100 기준, deep page로 갈수록 OFFSET 비용이 급증함을 확인
 
 createdAt + id 기반 Cursor 페이징 엔드포인트 추가:
 
-/api/users-cursor?pageSize=100
-/api/users-cursor?cursorCreatedAt=...&cursorId=...
+- /api/users-cursor?pageSize=100
+- /api/users-cursor?cursorCreatedAt=...&cursorId=...
 
 | pageSize | queryTimeMs |
 |---------:|------------:|
@@ -179,12 +180,6 @@ npm run dev
 cd web
 npm run dev
 ```
----
-## ✍️ 마무리
-
-- 이 프로젝트는 AG Grid를 사용해 
-대용량 리스트에서 어떤 지점이 느려지고 왜 그런지 이해하며
-어떤 선택을 했는지 테스트를 기록, 증명하기 위한 프로젝트입니다.
 ---
 
 ## 🚀 Deployment Environment
